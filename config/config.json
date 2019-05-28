@@ -1,0 +1,28 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "bing-maps-search-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/bingMapsSearch/BingMapsSearchWebPart.js",
+          "manifest": "./src/webparts/bingMapsSearch/BingMapsSearchWebPart.manifest.json"
+        }
+      ]
+    },
+    "bing-maps-polygon-search-web-part-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/bingMapsPolygonSearch/BingMapsPolygonSearchWebPartWebPart.js",
+          "manifest": "./src/webparts/bingMapsPolygonSearch/BingMapsPolygonSearchWebPartWebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "BingMapsSearchWebPartStrings": "lib/webparts/bingMapsSearch/loc/{locale}.js",
+    "PropertyControlStrings": "node_modules/@pnp/spfx-property-controls/lib/loc/{locale}.js",
+    "BingMapsPolygonSearchWebPartWebPartStrings": "lib/webparts/bingMapsPolygonSearch/loc/{locale}.js"
+  }
+}

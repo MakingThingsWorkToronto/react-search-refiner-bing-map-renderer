@@ -1,0 +1,42 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
+  "id": "283948d3-cfc1-472c-9684-c6b0f54d4b79",
+  "alias": "BingMapsPolygonSearchWebPartWebPart",
+  "componentType": "WebPart",
+  "version": "*",
+  "manifestVersion": 2,
+  "requiresCustomScript": false,
+  "supportsFullBleed": true,
+  
+  "preconfiguredEntries": [{
+    "groupId": "5c03119e-3074-46fd-976b-c60198311f70",
+    "group": { "default": "Other" },
+    "title": { "default": "Bing Maps Polygon Search Renderer" },
+    "description": { "default": "A search renderer that displays compressed polygons from the search index within a bing maps." },
+    "officeFabricIconFontName": "World",
+    "properties": {
+      "bingMapsAPIKey" : "Aho5OdmCynZpYsC78hLPWWcYiG2n5uzWcCJatlR-nV4LPe-0dBu7tGEC-QLaNWsk",
+      "navigationBarMode" : "minified",
+      "mapTypeId": "grayscale",
+      "hbsTemplate": "<div class='bminfobox'>\n    <div class='bmpopup'>\n        <div class='bmpcontent'>\n            <h2>{{result.Title}}</h2>\n            <span>{{result.Description}}</span>\n            <a href='terminal.aspx'>Read More &raquo;</a>\n        </div>\n    </div>\n</div>",
+      "supportedMapTypes" : [ "road","canvasDark","grayscale" ],
+      "targetColumnName" : "target",
+      "polygonColumnName" : "shape",
+      "titleColumnName": "title",
+      "inlineStyles" : "<style>\n .bminfobox { margin-left: 40px; margin-top: 45px; }\n .bmpopup { position: relative; width: 250px; height: 120px;\n    padding: 0px; background: #FFFFFF;\n    -webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px; }\n .bmpopup:after { content: ''; position: absolute; border-style: solid;\n     border-width: 15px 15px 15px 0; border-color: transparent #FFFFFF; display: block; width: 0;\n    z-index: 1; left: -15px; top: 45px; }\n  .bmpcontent {padding:0.5rem;}\n .bmpcontent > h2 { margin: 0; padding: 0; font-weight:200;\n      font-family: 'Segoe UI Light','Segoe UI','Segoe',Tahoma,Helvetica,Arial,sans-serif;\n }\n .bmpcontent > span,.bmpcontent > a { display:block; padding: 0.5rem 0 0 0; margin: 0; }\n</style>",
+      "zoom": 4,
+      "centerLatitude": "54.53030887632692",
+      "centerLongitude": "-98.29223370863224",
+      "showLabels": true,
+      "fillColor": "rgba(244,244,244,0.5)",
+      "strokeColor": "rgba(164, 38, 44,1)",
+      "columns" : [
+        { "name": "Title" },
+        { "name": "Description" },
+        { "name": "Latitude" },
+        { "name": "Longitude" }
+      ] 
+    }
+  }]
+
+}

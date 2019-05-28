@@ -1,0 +1,14 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "Bing Maps Search Renderer",
+    "id": "64762676-8fdc-4b02-acfc-cf6be48658c4",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": false,
+    "isDomainIsolated": false
+  },
+  "paths": {
+    "zippedPackage": "solution/react-search-refiner-bing-map-renderer.sppkg"
+  }
+}
