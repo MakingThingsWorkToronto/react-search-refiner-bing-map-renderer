@@ -31,7 +31,7 @@
     "moment": "^2.24.0",
     "office-ui-fabric-react": "^5.135.0",
     "react": "16.3.2",
-    "react-bingmaps": "^3.6.1",
+    "react-bingmaps": "github:MakingThingsWorkToronto/react-bingmaps",
     "react-dom": "16.3.2",
     "video.js": "^7.5.4"
   },
