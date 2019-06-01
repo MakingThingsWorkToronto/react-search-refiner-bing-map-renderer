@@ -27,6 +27,7 @@ import MockTemplateService from '../../services/TemplateService/MockTemplateServ
 import { CalloutTriggers } from '@pnp/spfx-property-controls/lib/Callout';
 import { PropertyFieldLabelWithCallout } from '@pnp/spfx-property-controls/lib/PropertyFieldLabelWithCallout';
 import BingMap from '../../components/BingMap/BingMap';
+import styles from '../../services/TemplateService/BaseTemplateService.module.scss';
 
 export default class BingMapsSearchWebPart extends BaseClientSideWebPart<IBingMapsSearchWebPartProps> {
 
@@ -171,7 +172,7 @@ export default class BingMapsSearchWebPart extends BaseClientSideWebPart<IBingMa
     private _validateEmptyField(value: string): string {
 
       if (!value) {
-          return "This is a required field.";
+          return strings.requiredField;
       }
 
       return '';
@@ -186,29 +187,29 @@ export default class BingMapsSearchWebPart extends BaseClientSideWebPart<IBingMa
           },
           groups: [
             {
-              groupName: "Bing Maps Properties",
+              groupName: strings.bingMapsGroupNameLabel,
               groupFields: [
                 PropertyPaneTextField('bingMapsAPIKey', {
-                  label: "Bing Maps API Key",
+                  label: strings.bingMapsAPIKeyLabel,
                   value: this.properties.bingMapsAPIKey,
                   onGetErrorMessage: this._validateEmptyField.bind(this)
                 }),
-                PropertyFieldNumber('zoom', {
+                PropertyFieldNumber("zoom", {
                   key: "zoom",
-                  label: "Zoom",
+                  label: strings.zoomLabel,
                   value: this.properties.zoom,
                   onGetErrorMessage: this._validateEmptyField.bind(this),
                   minValue: 1,
                   maxValue: 19
                 }),
-                PropertyPaneDropdown('mapTypeId', {
-                  label: 'Default Map Type',
+                PropertyPaneDropdown("mapTypeId", {
+                  label: strings.mapTypeIdLabel,
                   selectedKey: this.properties.mapTypeId,
                   options: this._mapTypeIds
                 }),
-                PropertyFieldMultiSelect('supportedMapTypes', {
-                  key: 'supportedMapTypes',
-                  label: 'Supported Map Types',
+                PropertyFieldMultiSelect("supportedMapTypes", {
+                  key: "supportedMapTypes",
+                  label: strings.supportedMapTypesLabel,
                   options: this._mapTypeIds,
                   selectedKeys: this.properties.supportedMapTypes
                 })
@@ -218,31 +219,31 @@ export default class BingMapsSearchWebPart extends BaseClientSideWebPart<IBingMa
               groupName: "Column Configuration",
               groupFields: [
                 PropertyPaneTextField('latitudeColumnName', {
-                  label: "Latitude Column Name",
+                  label: strings.latitudeColumnNameLabel,
                   value: this.properties.latitudeColumnName,
                   onGetErrorMessage: this._validateEmptyField.bind(this)
                 }),
                 PropertyPaneTextField('longitudeColumnName', {
-                  label: "Longitude Column Name",
+                  label: strings.longitudeColumnNameLabel,
                   value: this.properties.longitudeColumnName,
                   onGetErrorMessage: this._validateEmptyField.bind(this)
                 }),                
                 PropertyPaneTextField('categoryColumnName', {
-                  label: "Category Column Name",
+                  label: strings.categoryColumnNameLabel,
                   value: this.properties.categoryColumnName
                 }),
                 PropertyFieldCollectionData('columns',{
                   key: 'columns',
-                  label: 'Request Columns',
-                  panelHeader: 'Enter columns you want to request from the search service.',
-                  manageBtnLabel: 'Enter Column Names',
+                  label: strings.columnsLabel,
+                  panelHeader: strings.columnsPanelHeader,
+                  manageBtnLabel: strings.columnsButtonLabel,
                   value: this.properties.columns,
                   enableSorting: true,
                   disableItemCreation: true,
                   disableItemDeletion: true,
                   fields: [{
                       id:"name",
-                      title:"Name",
+                      title:strings.columnsNameColumnTitle,
                       type: CustomCollectionFieldType.string,
                       required: true
                     }]
@@ -250,40 +251,40 @@ export default class BingMapsSearchWebPart extends BaseClientSideWebPart<IBingMa
               ]
             },
             {
-              groupName: "Icon Mappings",
+              groupName: strings.iconMappingsGroupLabel,
               groupFields: [
                 PropertyFieldCollectionData('categoryIcons',{
                   key: 'categoryIcons',
-                  label: 'Category Pin Icons',
-                  panelHeader: 'Enter custom icon urls to appear on the map pins.',
-                  panelDescription: 'In the match column enter the text or regular expression that should be compared to category field value. In the URL column, enter the URL to an icon that should be displayed when that match equals true. Use pattern .* to match against all category values including null.',
-                  manageBtnLabel: 'Specify Pin Icons',
+                  label: strings.categoryIconsLabel,
+                  panelHeader: strings.categoryIconsPanelHeader,
+                  panelDescription: strings.categoryIconsPanelDesc,
+                  manageBtnLabel: strings.categoryIconsButtonLabel,
                   value: this.properties.categoryIcons,
                   enableSorting: true,
                   fields: [{
                       id:"pattern",
-                      title:"Match Category Field Value",
+                      title:strings.patternLabel,
                       type: CustomCollectionFieldType.string,
                       required: true
                     },
                     {
                       id:"url",
-                      title:"URL of Icon to display",
+                      title: strings.urlLabel,
                       type: CustomCollectionFieldType.string,
                       required: true
                     },
                     {
                       id:"comparetype",
-                      title: "Comparison Type",
+                      title: strings.compareTypeLabel,
                       type: CustomCollectionFieldType.dropdown,
                       options: [
                         {
                           key: "regex",
-                          text: "Regular Expression"
+                          text: strings.compareTypeRegExText
                         },
                         {
                           key: "alltags",
-                          text: "Contains Text (use comma for multiple values)"
+                          text: strings.compareTypeAltTagText
                         }
                       ]
                     }
@@ -292,11 +293,11 @@ export default class BingMapsSearchWebPart extends BaseClientSideWebPart<IBingMa
               ]
             },
             {
-              groupName: "Styles & Templates",
+              groupName: strings.stylesTemplatesGroupLabel,
               groupFields: [                
                 this._propertyFieldCodeEditor('inlineStyles', {
-                    label: "Info Pop-Up Styles",
-                    panelTitle: "Info Pop-Up CSS Styles",
+                    label: strings.inlineStylesTitle,
+                    panelTitle: strings.inlineStylesPanelTitle,
                     initialValue: this.properties.inlineStyles,
                     deferredValidationTime: 500,
                     onPropertyChange: this.onPropertyPaneFieldChanged,
@@ -305,8 +306,8 @@ export default class BingMapsSearchWebPart extends BaseClientSideWebPart<IBingMa
                     language: this._propertyFieldCodeEditorLanguages.Handlebars
                 }),                
                 this._propertyFieldCodeEditor('hbsTemplate', {
-                    label: "Info Pop-Up Template",
-                    panelTitle: "Info Pop-Up Handlebars Template",
+                    label: strings.hbsTemplateLabel,
+                    panelTitle: strings.hbsTemplatePanelTitle,
                     initialValue: this.properties.hbsTemplate,
                     deferredValidationTime: 500,
                     onPropertyChange: this.onPropertyPaneFieldChanged,

@@ -173,72 +173,72 @@ export default class BingMapsPolygonSearchWebPartWebPart extends BaseClientSideW
           },
           groups: [
             {
-              groupName: "Bing Maps Properties",
+              groupName: strings.bingMapsGroupNameLabel,
               groupFields: [
                 PropertyPaneTextField('bingMapsAPIKey', {
-                  label: "Bing Maps API Key",
+                  label: strings.bingMapsAPIKeyLabel,
                   value: this.properties.bingMapsAPIKey,
                   onGetErrorMessage: this._validateEmptyField.bind(this)
                 }),
                 PropertyFieldNumber('zoom', {
                   key: "zoom",
-                  label: "Zoom",
+                  label: strings.zoomLabel,
                   value: this.properties.zoom,
                   onGetErrorMessage: this._validateEmptyField.bind(this),
                   minValue: 1,
                   maxValue: 19
                 }),
                 PropertyPaneDropdown('mapTypeId', {
-                  label: 'Default Map Type',
+                  label: strings.mapTypeIdLabel,
                   selectedKey: this.properties.mapTypeId,
                   options: this._mapTypeIds
                 }),
                 PropertyFieldMultiSelect('supportedMapTypes', {
                   key: 'supportedMapTypes',
-                  label: 'Supported Map Types',
+                  label: strings.supportedMapTypesLabel,
                   options: this._mapTypeIds,
                   selectedKeys: this.properties.supportedMapTypes
                 }),
                 PropertyPaneTextField('centerLatitude', {
-                  label: "Center Latitude",
+                  label: strings.centerLatitudeLabel,
                   value: this.properties.centerLatitude.toString(),
                   onGetErrorMessage: this._validateEmptyField.bind(this),
                 }),
                 PropertyPaneTextField('centerLongitude', {
-                  label: "Center Longitude",
+                  label: strings.centerLongitudeLabel,
                   value: this.properties.centerLongitude.toString(),
                   onGetErrorMessage: this._validateEmptyField.bind(this)
                 }),
               ]
             },
             {
-              groupName: "Column Configuration",
+              groupName: strings.columnConfigurationGroupLabel,
               groupFields: [
                 PropertyPaneTextField('titleColumnName', {
-                  label: "Title Column Name",
+                  label: strings.titleColumnNameLabel,
                   value: this.properties.titleColumnName,
                   onGetErrorMessage: this._validateEmptyField.bind(this)
                 }),
                 PropertyPaneTextField('polygonColumnName', {
-                  label: "Polygon Column Name",
+                  label: strings.polygonColumnNameLabel,
                   value: this.properties.polygonColumnName
                 }),
                 PropertyPaneTextField('targetColumnName', {
-                  label: "Target Column Name",
+                  label: strings.targetColumnNameLabel,
                   value: this.properties.targetColumnName
                 }),
                 PropertyFieldCollectionData('columns',{
                   key: 'columns',
-                  label: 'Request Columns',
-                  panelHeader: 'Enter columns you want to request from the search service.',
-                  manageBtnLabel: 'Enter Column Names',
+                  label: strings.columnsLabel,
+                  panelHeader: strings.columnsPanelHeader,
+                  manageBtnLabel: strings.columnsButtonLabel,
                   value: this.properties.columns,
                   enableSorting: true,
                   disableItemCreation: true,
                   disableItemDeletion: true,
                   fields: [{
                       id:"name",
-                      title:"Name",
+                      title:strings.columnsNameColumnTitle,
                       type: CustomCollectionFieldType.string,
                       required: true
                     }]
@@ -246,22 +246,22 @@ export default class BingMapsPolygonSearchWebPartWebPart extends BaseClientSideW
               ]
             },
             {
-              groupName: "Colors & Styles",
+              groupName: strings.colorsStylesGroupLabel,
               groupFields: [
                 PropertyPaneToggle('showLabels', {
-                    label: "Show Labels",
+                    label: strings.showLabelsLabel, 
                     checked: this.properties.showLabels
                 }), 
                 PropertyFieldNumber('strokeThickness', {
                   key: "strokeThickness",
-                  label: "Line Thickeness",
+                  label: strings.strokeThicknessLabel,
                   value: this.properties.strokeThickness,
                   onGetErrorMessage: this._validateEmptyField.bind(this),
                   minValue: 1,
                   maxValue: 10
                 }),
                 PropertyFieldColorPicker('fillColor', {
-                  label: 'Fill Color',
+                  label: strings.fillColorLabel,
                   properties: this.properties,
                   selectedColor: this.properties.fillColor,
                   onPropertyChange: (e) => {},
@@ -271,7 +271,7 @@ export default class BingMapsPolygonSearchWebPartWebPart extends BaseClientSideW
                   key: 'fillColorID'
                 }),
                 PropertyFieldColorPicker('strokeColor', {
-                  label: 'Line Color',
+                  label: strings.strokeColorLabel,
                   properties: this.properties,
                   selectedColor: this.properties.strokeColor,
                   onPropertyChange: (e)=> {},
