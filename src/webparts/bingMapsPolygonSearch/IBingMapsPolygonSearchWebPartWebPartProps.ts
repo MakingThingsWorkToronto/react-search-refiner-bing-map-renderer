@@ -14,5 +14,23 @@ export default interface IBingMapsPolygonSearchWebPartWebPartProps {
     centerLatitude: string;
     centerLongitude: string;
     showLabels: boolean;
+    height:string;
+
+    disableZooming:boolean;
+    disableScrollWheelZoom:boolean;
+    allowInfoboxOverflow:boolean;
+    disableBirdseye:boolean;
+    disablePanning:boolean;
+
+    disableStreetside:boolean;
+    showDashboard:boolean;
+    showLocateMeButton: boolean;
+    showMapTypeSelector:boolean;
+    showScalebar:boolean;
+    showZoomButtons:boolean;
+
+    minZoom:number;
+    maxZoom:number;
+    
 }
   

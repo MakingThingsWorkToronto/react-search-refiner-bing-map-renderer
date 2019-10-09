@@ -6,6 +6,7 @@ import * as moment from 'moment';
 import { ReactBingmaps } from 'react-bingmaps'; 
 import { ISearchResults,ISearchResult } from '../../models/ISearchResult';
 import ICategoryIcon from '../../models/ICategoryIcon';
+import { blockParams } from 'handlebars';
 
 export default class BingMap extends React.Component<IBingMapProps, {}> {
 
@@ -38,7 +39,14 @@ export default class BingMap extends React.Component<IBingMapProps, {}> {
             }; 
         }); 
         
-        var bounds = resultPins.map(pin => {
+        var validResultPins = [];
+        resultPins.forEach((pin,index)=>{
+            if(pin.location && !isNaN(pin.location[0]) && !isNaN(pin.location[1])) {
+                validResultPins.push(pin);
+            }
+        });
+
+        var bounds = validResultPins.map(pin => {
             return pin.location;  
         });
 
@@ -60,23 +68,59 @@ export default class BingMap extends React.Component<IBingMapProps, {}> {
             };
         });
  
+        var inlineStylesMapArea = {};
+        var legendItems = [];
+        var legendStyle = {
+            display:"none"
+        };
+
+        if(this.props.height && this.props.height.trim().length>0) {
+            inlineStylesMapArea = {
+                height : this.props.height
+            };
+        }
+
+        if(this.props.showLegend == true) {
+            
+            legendItems.push(<li><h3>Map Legend</h3></li>);
+
+            var nextLegendItems =  this.props.categoryIcons.map((item,key)=>
+                <li>
+                    <img src={item.url} alt={item.legend} />
+                    <span>{item.legend}</span>
+                </li>
+            );
+
+            nextLegendItems.forEach((val,idx) => legendItems.push(val));
+            
+            legendStyle = {
+                display: "block"
+            };
+
+        }
+
         return (
-            <div className={styles.spReactBingMap}>
+            <div className={styles.spReactBingMap} style={inlineStylesMapArea} >
                 <div dangerouslySetInnerHTML={this.getInlineStyles()}></div>
                 <ReactBingmaps
                     bingmapKey={this.props.bingMapsAPIKey} 
                     mapTypeId={this.props.mapTypeId}
                     navigationBarMode={this.props.navigationBarMode}
                     supportedMapTypes={this.props.supportedMapTypes}
-                    infoboxesWithPushPins={resultPins}
+                    infoboxesWithPushPins={validResultPins}
                     zoom={this.props.zoom}
                     className={styles.mapArea}
                     bounds={bounds}
                     center={center}
                     compressedPolygons={resultPolygons}
+                    startOptions={this.props.startOptions}
+                    mapOptions={this.props.mapOptions}
                     >
                     
                 </ReactBingmaps>
+                <ul className={styles.legendArea} style={legendStyle}> 
+                    {legendItems}
+                </ul>
             </div>
         );
 

@@ -3,6 +3,8 @@ import IResultService from '../../services/ResultService/IResultService';
 import BaseTemplateService from '../../services/TemplateService/BaseTemplateService';
 
 export default interface IBingMapProps {
+    startOptions?:any;
+    mapOptions?:any;
     componentId: string;
     pinResults?: ISearchResults;
     polygonResults?: ISearchResults;
@@ -26,4 +28,8 @@ export default interface IBingMapProps {
     fillColor? : string;
     strokeColor? : string;
     strokeThickness?: number;
+    height:string;
+    minZoom?:number;
+    maxZoom?:number;
+    showLegend?:boolean;
 }

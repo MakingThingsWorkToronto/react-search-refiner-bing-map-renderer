@@ -1,6 +1,9 @@
 define([], function() {
   return {
-    "PropertyPaneDescription": "Configure Bing Maps Properties",
+    "PropertyPaneDescription": "Configure Properties",
+    "BingMapsPageDescription": "Configure Bing Maps Options",
+    "StylesPaneDescription":"Configure Map Styles",
+    "ColorsPageDescription": "Configure Colors",
     "BasicGroupName": "Group Name",
     "DescriptionFieldLabel": "Description Field",
     "CountMessageLong": "<b>{0}</b> results for '<em>{1}</em>'",
@@ -10,7 +13,7 @@ define([], function() {
     "inlineStylesTitle": "Info Pop-Up Styles",
     "inlineStylesPanelTitle": "Info Pop-Up CSS Styles",
     "compareTypeAltTagText" : "Contains Text (use comma for multiple values)",
-    "compareTypeRegExText" : "Contains Text (use comma for multiple values)",
+    "compareTypeRegExText" : "Matches Regular Expression",
     "compareTypeLabel":"Comparison Type",
     "urlLabel" : "URL of Icon to display",
     "patternLabel": "Match Category Field Value", 
@@ -40,10 +43,42 @@ define([], function() {
     "centerLongitudeLabel":"Center Longitude",
     "centerLatitudeLabel":"Center Latitude",
     "bingMapsGroupNameLabel" :"Bing Maps Properties",
+    "bingMapsGroupNameExtendedLabel" :"Extended Bing Maps Properties",
     "columnConfigurationGroupLabel":"Column Configuration",
     "colorsStylesGroupLabel":"Colors & Styles",
     "stylesTemplatesGroupLabel":"Styles & Templates",
     "iconMappingsGroupLabel":"Icon Mappings",
+    "mapHeightLabel":"Height",
     
+    "disableZoomingLabel":"Disable Zooming",
+    "disableZoomingDesc":"A boolean value indicating whether to disable the user's ability to zoom in or out. Default: false",
+    "disableScrollWheelZoomLabel":"Disable Scrool Wheel Zooming",
+    "disableScrollWheelZoomDesc":"Scrolling the mouse wheel over the map will zoom it in or out, but will not scroll the page. Setting this property to true disables the zooming of the map and instead reverts back to scrolling the page. Default: false",
+    "allowInfoboxOverflowLabel":"Allow Infobox Overflow",
+    "disableBirdseyeLabel":"Disable Birdseye",
+    "disableBirdseyeDesc":"A boolean indicating whether to disable the bird’s eye map type. The default value is false. If this property is set to true, bird’s eye will be removed from the map navigation control and the birdseye MapTypeId is disabled. Additionally, the auto map type will only display road or aerial",
+    "disablePanningLabel": "Disable Panning",
+    "disablePanningDesc":"A boolean value indicating whether to disable the user's ability to pan the map. Default: false",
+    
+    "disableStreetside":"Disable Streetside",
+    "disableStreetside":"A boolean indicating whether to disable streetside mode. If this property is set to true, streetside will be removed from the navigation bar, and the automatic coverage overlay will be disabled when zoomed in at lower zoom levels. Default false",
+    "showDashboardLabel": "Show Map Navigation",
+    "showDashboardDesc": "A boolean value indicating whether to show the map navigation control. Default: true",
+    "showLocateMeButtonLabel":"Show Locate Me Button",
+    "showLocateMeButtonDesc":"A boolean value indicating whether to show the map navigation control. Default: true",
+    "showMapTypeSelectorLabel":"Show Map Type Selector",
+    "showMapTypeSelectorDesc":"A boolean value indicating whether to show the map type selector in the map navigation control. Default: true",
+    "showScalebarLabel":"Show Scalebar",
+    "showScalebarDesc":"A boolean value indicating whether to show the scale bar. Default: true",
+    "showZoomButtonsLabel":"Show Zoom Buttons",
+    "showZoomButtonsDesc": "A boolean value indicating whether to show the zoom buttons in the map navigation control. Default: true",
+    "disableStreetsideLabel": "Disable Streetside",
+
+    "minZoomLabel": "Minimum Zoom",
+    "maxZoomLabel": "Maximum Zoom",
+    "showLegendLabel" : "Show Legend",
+    "legendLabel": "Legend Text",
+    "legendHeader": "Legend"
+
   }
 });

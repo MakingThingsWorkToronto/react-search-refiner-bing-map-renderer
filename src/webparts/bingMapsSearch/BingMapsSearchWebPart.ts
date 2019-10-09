@@ -8,7 +8,9 @@ import {
   PropertyPaneChoiceGroup,
   IPropertyPaneChoiceGroupOption,
   PropertyPaneDropdown,
-  IPropertyPaneDropdownOption
+  IPropertyPaneDropdownOption,
+  IPropertyPanePage,
+  PropertyPaneToggle
 } from '@microsoft/sp-webpart-base';
 
 import * as strings from 'BingMapsSearchWebPartStrings';
@@ -96,6 +98,12 @@ export default class BingMapsSearchWebPart extends BaseClientSideWebPart<IBingMa
           Category: "One,Two,Three",
           Latitude: "13.0827",
           Longitude: "81.2707"
+      }, {
+        Title: "Title Item Three",
+        Description: "Description Item Three", 
+        Category: "One,Two,Three",
+        Latitude: "A",
+        Longitude: "B"
       }
     ];
     
@@ -127,7 +135,26 @@ export default class BingMapsSearchWebPart extends BaseClientSideWebPart<IBingMa
         columns: this.properties.columns,
         latitudeColumnName: this.properties.latitudeColumnName,
         longitudeColumnName: this.properties.longitudeColumnName,
-        categoryColumnName: this.properties.categoryColumnName
+        categoryColumnName: this.properties.categoryColumnName,
+        height: this.properties.height,
+        startOptions: {
+          disableStreetside:this.properties.disableStreetside,
+          showDashboard:this.properties.showDashboard,
+          showLocateMeButton: this.properties.showLocateMeButton,
+          showMapTypeSelector:this.properties.showMapTypeSelector,
+          showScalebar:this.properties.showScalebar,
+          showZoomButtons:this.properties.showZoomButtons
+        },
+        mapOptions: {
+          disableZooming:this.properties.disableZooming,
+          disableScrollWheelZoom:this.properties.disableScrollWheelZoom,
+          allowInfoboxOverflow:this.properties.allowInfoboxOverflow,
+          disableBirdseye:this.properties.disableBirdseye,
+          disablePanning:this.properties.disablePanning,
+          maxZoom: this.properties.maxZoom,
+          minZoom: this.properties.minZoom
+        },
+        showLegend: this.properties.showLegend
       }
     );
 
@@ -179,147 +206,252 @@ export default class BingMapsSearchWebPart extends BaseClientSideWebPart<IBingMa
   }
 
   protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
+    
     return {
       pages: [
+          this.getOptionsPage(),
+          this.getStylesPage(),
+          this.getBingMapsOptionsPage()
+      ]
+    };
+  }
+  private getOptionsPage():IPropertyPanePage {
+    return {
+      header: {
+        description: strings.PropertyPaneDescription
+      },
+      groups: [
         {
-          header: {
-            description: strings.PropertyPaneDescription
-          },
-          groups: [
-            {
-              groupName: strings.bingMapsGroupNameLabel,
-              groupFields: [
-                PropertyPaneTextField('bingMapsAPIKey', {
-                  label: strings.bingMapsAPIKeyLabel,
-                  value: this.properties.bingMapsAPIKey,
-                  onGetErrorMessage: this._validateEmptyField.bind(this)
-                }),
-                PropertyFieldNumber("zoom", {
-                  key: "zoom",
-                  label: strings.zoomLabel,
-                  value: this.properties.zoom,
-                  onGetErrorMessage: this._validateEmptyField.bind(this),
-                  minValue: 1,
-                  maxValue: 19
-                }),
-                PropertyPaneDropdown("mapTypeId", {
-                  label: strings.mapTypeIdLabel,
-                  selectedKey: this.properties.mapTypeId,
-                  options: this._mapTypeIds
-                }),
-                PropertyFieldMultiSelect("supportedMapTypes", {
-                  key: "supportedMapTypes",
-                  label: strings.supportedMapTypesLabel,
-                  options: this._mapTypeIds,
-                  selectedKeys: this.properties.supportedMapTypes
-                })
-              ]
-            },
-            {
-              groupName: "Column Configuration",
-              groupFields: [
-                PropertyPaneTextField('latitudeColumnName', {
-                  label: strings.latitudeColumnNameLabel,
-                  value: this.properties.latitudeColumnName,
-                  onGetErrorMessage: this._validateEmptyField.bind(this)
-                }),
-                PropertyPaneTextField('longitudeColumnName', {
-                  label: strings.longitudeColumnNameLabel,
-                  value: this.properties.longitudeColumnName,
-                  onGetErrorMessage: this._validateEmptyField.bind(this)
-                }),                
-                PropertyPaneTextField('categoryColumnName', {
-                  label: strings.categoryColumnNameLabel,
-                  value: this.properties.categoryColumnName
-                }),
-                PropertyFieldCollectionData('columns',{
-                  key: 'columns',
-                  label: strings.columnsLabel,
-                  panelHeader: strings.columnsPanelHeader,
-                  manageBtnLabel: strings.columnsButtonLabel,
-                  value: this.properties.columns,
-                  enableSorting: true,
-                  disableItemCreation: true,
-                  disableItemDeletion: true,
-                  fields: [{
-                      id:"name",
-                      title:strings.columnsNameColumnTitle,
-                      type: CustomCollectionFieldType.string,
-                      required: true
-                    }]
-                })
-              ]
-            },
-            {
-              groupName: strings.iconMappingsGroupLabel,
-              groupFields: [
-                PropertyFieldCollectionData('categoryIcons',{
-                  key: 'categoryIcons',
-                  label: strings.categoryIconsLabel,
-                  panelHeader: strings.categoryIconsPanelHeader,
-                  panelDescription: strings.categoryIconsPanelDesc,
-                  manageBtnLabel: strings.categoryIconsButtonLabel,
-                  value: this.properties.categoryIcons,
-                  enableSorting: true,
-                  fields: [{
-                      id:"pattern",
-                      title:strings.patternLabel,
-                      type: CustomCollectionFieldType.string,
-                      required: true
-                    },
-                    {
-                      id:"url",
-                      title: strings.urlLabel,
-                      type: CustomCollectionFieldType.string,
-                      required: true
-                    },
-                    {
-                      id:"comparetype",
-                      title: strings.compareTypeLabel,
-                      type: CustomCollectionFieldType.dropdown,
-                      options: [
-                        {
-                          key: "regex",
-                          text: strings.compareTypeRegExText
-                        },
-                        {
-                          key: "alltags",
-                          text: strings.compareTypeAltTagText
-                        }
-                      ]
-                    }
-                  ]
-                })
-              ]
-            },
-            {
-              groupName: strings.stylesTemplatesGroupLabel,
-              groupFields: [                
-                this._propertyFieldCodeEditor('inlineStyles', {
-                    label: strings.inlineStylesTitle,
-                    panelTitle: strings.inlineStylesPanelTitle,
-                    initialValue: this.properties.inlineStyles,
-                    deferredValidationTime: 500,
-                    onPropertyChange: this.onPropertyPaneFieldChanged,
-                    properties: this.properties,
-                    key: 'inlineStylesCodeEditor',
-                    language: this._propertyFieldCodeEditorLanguages.Handlebars
-                }),                
-                this._propertyFieldCodeEditor('hbsTemplate', {
-                    label: strings.hbsTemplateLabel,
-                    panelTitle: strings.hbsTemplatePanelTitle,
-                    initialValue: this.properties.hbsTemplate,
-                    deferredValidationTime: 500,
-                    onPropertyChange: this.onPropertyPaneFieldChanged,
-                    properties: this.properties,
-                    key: 'hbsTemplateCodeEditor',
-                    language: this._propertyFieldCodeEditorLanguages.Handlebars
-                })
-              ]
-            }
+          groupName: strings.bingMapsGroupNameLabel,
+          groupFields: [
+            PropertyPaneTextField('bingMapsAPIKey', {
+              label: strings.bingMapsAPIKeyLabel,
+              value: this.properties.bingMapsAPIKey,
+              onGetErrorMessage: this._validateEmptyField.bind(this)
+            }),
+            PropertyPaneTextField('height', {
+              label: strings.mapHeightLabel,
+              value: this.properties.height
+            }),
+            PropertyFieldNumber("zoom", {
+              key: "zoom",
+              label: strings.zoomLabel,
+              value: this.properties.zoom,
+              onGetErrorMessage: this._validateEmptyField.bind(this),
+              minValue: 1,
+              maxValue: 19
+            })
+          ]
+        },
+        {
+          groupName: "Column Configuration",
+          groupFields: [
+            PropertyPaneTextField('latitudeColumnName', {
+              label: strings.latitudeColumnNameLabel,
+              value: this.properties.latitudeColumnName,
+              onGetErrorMessage: this._validateEmptyField.bind(this)
+            }),
+            PropertyPaneTextField('longitudeColumnName', {
+              label: strings.longitudeColumnNameLabel,
+              value: this.properties.longitudeColumnName,
+              onGetErrorMessage: this._validateEmptyField.bind(this)
+            }),                
+            PropertyPaneTextField('categoryColumnName', {
+              label: strings.categoryColumnNameLabel,
+              value: this.properties.categoryColumnName
+            }),
+            PropertyFieldCollectionData('columns',{
+              key: 'columns',
+              label: strings.columnsLabel,
+              panelHeader: strings.columnsPanelHeader,
+              manageBtnLabel: strings.columnsButtonLabel,
+              value: this.properties.columns,
+              enableSorting: true,
+              disableItemCreation: true,
+              disableItemDeletion: true,
+              fields: [{
+                  id:"name",
+                  title:strings.columnsNameColumnTitle,
+                  type: CustomCollectionFieldType.string,
+                  required: true
+                }]
+            })
           ]
         }
       ]
     };
   }
+
+  private getStylesPage():IPropertyPanePage {
+    return {
+      header: {
+        description:strings.StylesPaneDescription
+      },
+      groups: [
+        {
+          groupName: strings.iconMappingsGroupLabel,
+          groupFields: [
+            PropertyFieldCollectionData('categoryIcons',{
+              key: 'categoryIcons',
+              label: strings.categoryIconsLabel,
+              panelHeader: strings.categoryIconsPanelHeader,
+              panelDescription: strings.categoryIconsPanelDesc,
+              manageBtnLabel: strings.categoryIconsButtonLabel,
+              value: this.properties.categoryIcons,
+              enableSorting: true,
+              fields: [{
+                  id:"pattern",
+                  title:strings.patternLabel,
+                  type: CustomCollectionFieldType.string,
+                  required: true
+                },
+                {
+                  id:"url",
+                  title: strings.urlLabel,
+                  type: CustomCollectionFieldType.string,
+                  required: true
+                },
+                {
+                  id:"legend",
+                  title: strings.legendLabel,
+                  type: CustomCollectionFieldType.string,
+                  required: true
+                },
+                {
+                  id:"comparetype",
+                  title: strings.compareTypeLabel,
+                  type: CustomCollectionFieldType.dropdown,
+                  options: [
+                    {
+                      key: "regex",
+                      text: strings.compareTypeRegExText
+                    },
+                    {
+                      key: "alltags",
+                      text: strings.compareTypeAltTagText
+                    }
+                  ]
+                }
+              ]
+            }),
+            PropertyPaneToggle('showLegend', {
+              label: strings.showLegendLabel, 
+              checked: this.properties.showLegend
+            })
+          ]
+        },
+        {
+          groupName: strings.stylesTemplatesGroupLabel,
+          groupFields: [                
+            this._propertyFieldCodeEditor('inlineStyles', {
+                label: strings.inlineStylesTitle,
+                panelTitle: strings.inlineStylesPanelTitle,
+                initialValue: this.properties.inlineStyles,
+                deferredValidationTime: 500,
+                onPropertyChange: this.onPropertyPaneFieldChanged,
+                properties: this.properties,
+                key: 'inlineStylesCodeEditor',
+                language: this._propertyFieldCodeEditorLanguages.Handlebars
+            }),                
+            this._propertyFieldCodeEditor('hbsTemplate', {
+                label: strings.hbsTemplateLabel,
+                panelTitle: strings.hbsTemplatePanelTitle,
+                initialValue: this.properties.hbsTemplate,
+                deferredValidationTime: 500,
+                onPropertyChange: this.onPropertyPaneFieldChanged,
+                properties: this.properties,
+                key: 'hbsTemplateCodeEditor',
+                language: this._propertyFieldCodeEditorLanguages.Handlebars
+            })
+          ]
+        }
+      ]
+    };
+  }
+
+  
+  private getBingMapsOptionsPage():IPropertyPanePage {
+    return {
+      header: {
+        description:strings.BingMapsPageDescription
+      },
+      groups: [
+        {
+          groupName: strings.bingMapsGroupNameExtendedLabel,
+          groupFields: [
+            PropertyPaneDropdown('mapTypeId', {
+              label: strings.mapTypeIdLabel,
+              selectedKey: this.properties.mapTypeId,
+              options: this._mapTypeIds
+            }),
+            PropertyFieldMultiSelect('supportedMapTypes', {
+              key: 'supportedMapTypes',
+              label: strings.supportedMapTypesLabel,
+              options: this._mapTypeIds,
+              selectedKeys: this.properties.supportedMapTypes
+            }),
+            PropertyPaneToggle('disableZooming', {
+              label: strings.disableZoomingLabel, 
+              checked: this.properties.disableZooming
+            }), 
+            PropertyPaneToggle('disableScrollWheelZoom', {
+              label: strings.disableScrollWheelZoomLabel, 
+              checked: this.properties.disableScrollWheelZoom
+            }), 
+            PropertyPaneToggle('allowInfoboxOverflow', {
+              label: strings.allowInfoboxOverflowLabel, 
+              checked: this.properties.allowInfoboxOverflow
+            }), 
+            PropertyPaneToggle('disableBirdseye', {
+              label: strings.disableBirdseyeLabel, 
+              checked: this.properties.disableBirdseye
+            }), 
+            PropertyPaneToggle('disablePanning', {
+              label: strings.disablePanningLabel, 
+              checked: this.properties.disablePanning
+            }), 
+            PropertyPaneToggle('disableStreetside', {
+              label: strings.disableStreetsideLabel, 
+              checked: this.properties.disableStreetside
+            }), 
+            PropertyPaneToggle('showDashboard', {
+              label: strings.showDashboardLabel, 
+              checked: this.properties.showDashboard
+            }), 
+            PropertyPaneToggle('showLocateMeButton', {
+              label: strings.showLocateMeButtonLabel, 
+              checked: this.properties.showLocateMeButton
+            }), 
+            PropertyPaneToggle('showMapTypeSelector', {
+              label: strings.showMapTypeSelectorLabel, 
+              checked: this.properties.showMapTypeSelector
+            }), 
+            PropertyPaneToggle('showScalebar', {
+              label: strings.showScalebarLabel, 
+              checked: this.properties.showScalebar
+            }), 
+            PropertyPaneToggle('showZoomButtons', {
+              label: strings.showZoomButtonsLabel, 
+              checked: this.properties.showZoomButtons
+            }), 
+            PropertyFieldNumber("minZoom", {
+              key: "minZoom",
+              label: strings.minZoomLabel,
+              value: this.properties.minZoom,
+              minValue: 1,
+              maxValue: 19
+            }),
+            PropertyFieldNumber("maxZoom", {
+              key: "maxZoom",
+              label: strings.maxZoomLabel,
+              value: this.properties.maxZoom,
+              minValue: 1,
+              maxValue: 19
+            })
+          ]
+        },
+      ]
+    };
+  }
+
 }

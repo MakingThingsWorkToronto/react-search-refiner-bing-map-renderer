@@ -30,11 +30,29 @@
       "showLabels": true,
       "fillColor": "rgba(244,244,244,0.5)",
       "strokeColor": "rgba(164, 38, 44,1)",
+      "strokeThickness": 5,
+      "height":"600px",
+      
+      "disableZooming":false,
+      "disableScrollWheelZoom":false,
+      "allowInfoboxOverflow":false,
+      "disableBirdseye":false,
+      "disablePanning":false,
+      
+      "disableStreetside":false,
+      "showDashboard":true,
+      "showLocateMeButton":true,
+      "showMapTypeSelector":true,
+      "showScalebar":true,
+      "showZoomButtons":true,
+
+      "minZoom":1,
+      "maxZoom":19,
+
       "columns" : [
         { "name": "Title" },
-        { "name": "Description" },
-        { "name": "Latitude" },
-        { "name": "Longitude" }
+        { "name": "Target" },
+        { "name": "Shape" }
       ] 
     }
   }]

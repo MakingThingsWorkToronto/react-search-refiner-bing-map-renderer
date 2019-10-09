@@ -28,7 +28,7 @@ abstract class BaseTemplateService {
     }
 
     private async LoadHandlebarsHelpers() {
-        if ((<any>window).searchHBHelper !== undefined) {
+        if ((<any>window).mapsHBHelper !== undefined) {
             // early check - seems to never hit(?)
             return;
         }
@@ -36,10 +36,10 @@ abstract class BaseTemplateService {
             /* webpackChunkName: 'search-handlebars-helpers' */
             'handlebars-helpers'
         );
-        if ((<any>window).searchHBHelper !== undefined) {
+        if ((<any>window).mapsHBHelper !== undefined) {
             return;
         }
-        (<any>window).searchHBHelper = component({
+        (<any>window).mapsHBHelper = component({
             handlebars: Handlebars
         });
     }
@@ -143,7 +143,7 @@ abstract class BaseTemplateService {
         // <p>{{getDate Created "LL"}}</p>
         Handlebars.registerHelper("getDate", (date: string, format: string) => {
             try {
-                let d = (<any>window).searchHBHelper.moment(date, format, { lang: this.CurrentLocale, datejs: false });
+                let d = (<any>window).mapsHBHelper.moment(date, format, { lang: this.CurrentLocale, datejs: false });
                 return d;
             } catch (error) {
                 return date;
