@@ -32,7 +32,7 @@
     "office-ui-fabric-react": "^5.135.0",
     "react": "16.3.2",
     "react-bingmaps": "github:MakingThingsWorkToronto/react-bingmaps",
-    "react-dom": "16.3.2",
+    "react-dom": "16.3.3",
     "video.js": "^7.5.4"
   },
   "devDependencies": {
