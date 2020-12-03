@@ -32,17 +32,22 @@ abstract class BaseTemplateService {
     }
 
     private async LoadHandlebarsHelpers() {
-        if ((<any>window).mapsHBHelper !== undefined) {
-            // early check - seems to never hit(?)
-            return;
-        }
+        
+        let moment = await import(
+            /* webpackChunkName: 'search-moment' */
+            /* webpackMode: 'lazy' */
+            'moment'
+        );
+        (window as any).mapsSearchMoment = (<any>moment).default;
+
         let component = await import(
             /* webpackChunkName: 'search-handlebars-helpers' */
             'handlebars-helpers'
         );
-        (<any>window).mapsHBHelper = component({
+        (<any>window).mapsHBHelper = component.default({
             handlebars: this._handleBarsInstance
         });
+
     }
 
     /**
@@ -96,7 +101,7 @@ abstract class BaseTemplateService {
         // <p>{{getDate Created "LL"}}</p>
         this._handleBarsInstance.registerHelper("getDate", (date: string, format: string) => {
             try {
-                let d = (<any>window).mapsHBHelper.moment(date, format, { lang: this.CurrentLocale, datejs: false });
+                let d = (<any>window).mapsSearchMoment.moment(date, format, { lang: this.CurrentLocale, datejs: false });
                 return d;
             } catch (error) {
                 return date;

@@ -3,7 +3,7 @@
   "solution": {
     "name": "Bing Maps Search Renderer",
     "id": "64762676-8fdc-4b02-acfc-cf6be48658c4",
-    "version": "1.0.0.0",
+    "version": "1.0.0.1",
     "includeClientSideAssets": true,
     "skipFeatureDeployment": false,
     "isDomainIsolated": false,

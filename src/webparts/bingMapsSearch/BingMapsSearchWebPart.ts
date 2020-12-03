@@ -20,11 +20,9 @@ import MockTemplateService from '../../services/TemplateService/MockTemplateServ
 
 export default class BingMapsSearchWebPart extends BaseClientSideWebPart<IBingMapsSearchWebPartProps> {
 
+  private _isInitialized: boolean = false;
   private _searchResults : ISearchResults;
   private _resultService: IResultService;
-  private _map: React.ReactElement<IBingMapProps>;
-  private _component : BingMaps;
-  private FIELDS: string = "Title,Description,Location";
   private _propertyFieldCodeEditor = null;
   private _propertyFieldCodeEditorLanguages = null;
   private _templateService: BaseTemplateService;
@@ -63,7 +61,7 @@ export default class BingMapsSearchWebPart extends BaseClientSideWebPart<IBingMa
             (e) => this.onChangeHappened(e), this.properties.columns.map((i) => { return i.name; }) as string[]
     );
 
-    return Promise.resolve();
+    this._isInitialized = true;
     
   }
 
@@ -106,9 +104,11 @@ export default class BingMapsSearchWebPart extends BaseClientSideWebPart<IBingMa
 
   public render(): void {
     
+    if(!this._isInitialized) return;
+
     if (Environment.type === EnvironmentType.Local) { this.setMockResults(); }
 
-    this._map = React.createElement(
+    const map = React.createElement(
       BingMaps, {
         componentId: this.componentId, 
         pinResults: this._searchResults,
@@ -147,13 +147,13 @@ export default class BingMapsSearchWebPart extends BaseClientSideWebPart<IBingMa
       }
     );
 
-    this._component = ReactDom.render(this._map, this.domElement) as BingMaps;
+    ReactDom.render(map, this.domElement);
     
   }
 
   public onChangeHappened(e: ISearchEvent) {
-    if(this._map) this._map.props.pinResults = e.results;
-    if(this._component) this._component.forceUpdate();
+    this._searchResults = e.results;
+    if(this._isInitialized) this.render();
   }
 
   protected onDispose(): void {

@@ -24,8 +24,7 @@ export default class BingMapsPolygonSearchWebPartWebPart extends BaseClientSideW
 
   private _searchResults : ISearchResults;
   private _resultService: IResultService;
-  private _map: React.ReactElement<IBingMapProps>;
-  private _component : BingMaps;
+  private _isInitialized: boolean;
   private FIELDS: string = "Title,Description,Location";
   private _propertyFieldCodeEditor = null;
   private _propertyFieldCodeEditorLanguages = null;
@@ -59,8 +58,8 @@ export default class BingMapsPolygonSearchWebPartWebPart extends BaseClientSideW
             (e) => this.onChangeHappened(e), this.properties.columns.map((i) => { return i.name; }) as string[]
     );
 
-    return Promise.resolve();
-    
+    this._isInitialized = true;
+      
   }
 
   private setMockResults() : void {
@@ -83,12 +82,14 @@ export default class BingMapsPolygonSearchWebPartWebPart extends BaseClientSideW
 
   public render(): void {
 
+    if(!this._isInitialized) return;
+    
     if (Environment.type === EnvironmentType.Local) {
       this.setMockResults();
     }
     
     let center: number[] = [ this.tryParseFloat(this.properties.centerLatitude), this.tryParseFloat(this.properties.centerLongitude) ];
-    this._map = React.createElement(
+    const map = React.createElement(
       BingMaps, { 
         componentId: this.componentId, 
         polygonResults: this._searchResults,
@@ -127,7 +128,7 @@ export default class BingMapsPolygonSearchWebPartWebPart extends BaseClientSideW
       }
     );
 
-    this._component = ReactDom.render(this._map, this.domElement) as BingMaps;
+    ReactDom.render(map, this.domElement);
     
   }
 
@@ -149,11 +150,8 @@ export default class BingMapsPolygonSearchWebPartWebPart extends BaseClientSideW
 
   public onChangeHappened(e: ISearchEvent) {
     
-    console.log("Recieved search results");
-    console.log(e.results);
-
-    if(this._map) this._map.props.polygonResults = e.results;
-    if(this._component) this._component.forceUpdate();
+    this._searchResults = e.results;
+    if(this._isInitialized) this.render();
 
   }
 
