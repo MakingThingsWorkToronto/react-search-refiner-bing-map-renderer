@@ -6,7 +6,6 @@ import { IPropertyPaneConfiguration, PropertyPaneTextField, PropertyPaneDropdown
 
 import * as strings from 'BingMapsSearchWebPartStrings';
 import BingMaps from '../../components/BingMap/BingMap';
-import IBingMapProps from '../../components/BingMap/IBingMapProps';
 import IBingMapsSearchWebPartProps from './IBingMapsSearchWebPartProps';
 import { ResultService, ISearchEvent} from '../../services/ResultService/ResultService';
 import { ISearchResults, ISearchResult } from '../../models/ISearchResult';
