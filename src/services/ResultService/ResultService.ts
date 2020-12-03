@@ -61,7 +61,9 @@ export class ResultService implements IResultService {
     }
 
     private handleNewDataRegistered(e: ISearchEvent, rendererId, callback: (e) => void ) {
-        if(e.rendererId === rendererId) {
+        console.log("Handle new data registered");
+        if(e) {
+            console.log("Executing callback");
             callback(e);
         }
     }

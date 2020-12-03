@@ -1,17 +1,8 @@
 import * as React from 'react';
 import * as ReactDom from 'react-dom';
-import { Version, Text, Environment, EnvironmentType, DisplayMode } from '@microsoft/sp-core-library';
-import {
-  BaseClientSideWebPart,
-  IPropertyPaneConfiguration,
-  PropertyPaneTextField,
-  PropertyPaneChoiceGroup,
-  IPropertyPaneChoiceGroupOption,
-  PropertyPaneDropdown,
-  IPropertyPaneDropdownOption,
-  IPropertyPanePage,
-  PropertyPaneToggle
-} from '@microsoft/sp-webpart-base';
+import { Version, Environment, EnvironmentType } from '@microsoft/sp-core-library';
+import { BaseClientSideWebPart } from "@microsoft/sp-webpart-base";
+import { IPropertyPaneConfiguration, PropertyPaneTextField, PropertyPaneDropdown, IPropertyPaneDropdownOption, IPropertyPanePage, PropertyPaneToggle } from "@microsoft/sp-property-pane";
 
 import * as strings from 'BingMapsSearchWebPartStrings';
 import BingMaps from '../../components/BingMap/BingMap';
@@ -26,10 +17,6 @@ import { PropertyFieldCollectionData, CustomCollectionFieldType } from '@pnp/spf
 import BaseTemplateService from '../../services/TemplateService/BaseTemplateService';
 import TemplateService from '../../services/TemplateService/TemplateService';
 import MockTemplateService from '../../services/TemplateService/MockTemplateService';
-import { CalloutTriggers } from '@pnp/spfx-property-controls/lib/Callout';
-import { PropertyFieldLabelWithCallout } from '@pnp/spfx-property-controls/lib/PropertyFieldLabelWithCallout';
-import BingMap from '../../components/BingMap/BingMap';
-import styles from '../../services/TemplateService/BaseTemplateService.module.scss';
 
 export default class BingMapsSearchWebPart extends BaseClientSideWebPart<IBingMapsSearchWebPartProps> {
 
@@ -52,7 +39,7 @@ export default class BingMapsSearchWebPart extends BaseClientSideWebPart<IBingMa
     {key:"streetside",text:"Street Side"}
   ];
 
-  protected onInit(): Promise<void> {
+  protected async onInit(): Promise<void> {
     
     if (Environment.type === EnvironmentType.Local) {
 
@@ -65,6 +52,8 @@ export default class BingMapsSearchWebPart extends BaseClientSideWebPart<IBingMa
         this._templateService = new TemplateService(this.context.spHttpClient, this.context.pageContext.cultureInfo.currentUICultureName);
 
     }
+
+    await this._templateService.init();
 
     this._resultService = new ResultService();
     this._resultService.registerRenderer(

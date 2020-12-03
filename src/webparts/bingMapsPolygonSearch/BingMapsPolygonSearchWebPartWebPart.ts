@@ -2,17 +2,8 @@
 import * as React from 'react';
 import * as ReactDom from 'react-dom';
 import { Version, Text, Environment, EnvironmentType, DisplayMode } from '@microsoft/sp-core-library';
-import {
-  BaseClientSideWebPart,
-  IPropertyPaneConfiguration,
-  PropertyPaneTextField,
-  PropertyPaneToggle,
-  PropertyPaneChoiceGroup,
-  IPropertyPaneChoiceGroupOption,
-  PropertyPaneDropdown,
-  IPropertyPaneDropdownOption,
-  IPropertyPanePage
-} from '@microsoft/sp-webpart-base';
+import { BaseClientSideWebPart } from "@microsoft/sp-webpart-base";
+import { IPropertyPaneConfiguration, PropertyPaneTextField, PropertyPaneToggle, PropertyPaneDropdown, IPropertyPaneDropdownOption, IPropertyPanePage } from "@microsoft/sp-property-pane";
 
 import * as strings from 'BingMapsSearchWebPartStrings';
 import BingMaps from '../../components/BingMap/BingMap';
@@ -27,10 +18,7 @@ import { PropertyFieldCollectionData, CustomCollectionFieldType } from '@pnp/spf
 import BaseTemplateService from '../../services/TemplateService/BaseTemplateService';
 import TemplateService from '../../services/TemplateService/TemplateService';
 import MockTemplateService from '../../services/TemplateService/MockTemplateService';
-import BingMap from '../../components/BingMap/BingMap';
 import { PropertyFieldColorPicker, PropertyFieldColorPickerStyle } from '@pnp/spfx-property-controls/lib/PropertyFieldColorPicker';
-import times = require('lodash/times');
-
 
 export default class BingMapsPolygonSearchWebPartWebPart extends BaseClientSideWebPart<IBingMapsPolygonSearchWebPartWebPartProps> {
 
@@ -53,13 +41,15 @@ export default class BingMapsPolygonSearchWebPartWebPart extends BaseClientSideW
     {key:"streetside",text:"Street Side"}
   ];
   
-  protected onInit(): Promise<void> {
+  protected async onInit(): Promise<void> {
     
     if (Environment.type === EnvironmentType.Local) {
       this._templateService = new MockTemplateService(this.context.pageContext.cultureInfo.currentUICultureName);
     } else {
         this._templateService = new TemplateService(this.context.spHttpClient, this.context.pageContext.cultureInfo.currentUICultureName);
     }
+
+    await this._templateService.init();
 
     this._resultService = new ResultService();
     this._resultService.registerRenderer(

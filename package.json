@@ -1,6 +1,7 @@
 {
   "name": "react-search-refiner-bing-map-renderer",
-  "version": "0.0.1",
+  "main": "lib/index.js",
+  "version": "0.0.2",
   "private": true,
   "engines": {
     "node": ">=0.10.0"
@@ -11,35 +12,33 @@
     "test": "gulp test"
   },
   "dependencies": {
-    "@microsoft/decorators": "1.7.1",
-    "@microsoft/sp-application-base": "1.7.1",
-    "@microsoft/sp-core-library": "1.7.1",
-    "@microsoft/sp-dialog": "1.7.1",
-    "@microsoft/sp-lodash-subset": "1.7.1",
-    "@microsoft/sp-office-ui-fabric-core": "1.7.1",
-    "@microsoft/sp-webpart-base": "1.7.1",
+    "@microsoft/decorators": "1.11.0",
+    "@microsoft/sp-application-base": "1.11.0",
+    "@microsoft/sp-core-library": "1.11.0",
+    "@microsoft/sp-dialog": "1.11.0",
+    "@microsoft/sp-lodash-subset": "1.11.0",
+    "@microsoft/sp-office-ui-fabric-core": "1.11.0",
+    "@microsoft/sp-property-pane": "1.11.0",
+    "@microsoft/sp-webpart-base": "1.11.0",
     "@pnp/spfx-property-controls": "^1.15.0",
-    "@types/es6-promise": "0.0.33",
     "@types/handlebars": "^4.1.0",
-    "@types/react": "16.4.2",
-    "@types/react-dom": "16.0.5",
-    "@types/webpack-env": "1.13.1",
     "custom-event-polyfill": "^1.0.7",
     "handlebars": "^4.1.2",
     "handlebars-group-by": "^1.0.1",
     "handlebars-helpers": "^0.8.4",
     "moment": "^2.24.0",
-    "office-ui-fabric-react": "^5.135.0",
-    "react": "16.3.2",
+    "office-ui-fabric-react": "6.214.0",
+    "react": "16.8.5",
     "react-bingmaps": "github:MakingThingsWorkToronto/react-bingmaps",
-    "react-dom": "16.3.2",
+    "react-dom": "16.8.5",
     "video.js": "^7.5.5"
   },
   "devDependencies": {
-    "@microsoft/sp-build-web": "1.7.1",
-    "@microsoft/sp-module-interfaces": "1.7.1",
-    "@microsoft/sp-tslint-rules": "1.7.1",
-    "@microsoft/sp-webpart-workbench": "1.7.1",
+    "@microsoft/rush-stack-compiler-3.3": "0.3.5",
+    "@microsoft/sp-build-web": "1.11.0",
+    "@microsoft/sp-module-interfaces": "1.11.0",
+    "@microsoft/sp-tslint-rules": "1.11.0",
+    "@microsoft/sp-webpart-workbench": "1.11.0",
     "@types/chai": "3.4.34",
     "@types/mocha": "2.2.38",
     "ajv": "~5.2.2",
@@ -48,6 +47,6 @@
     "webpack-bundle-analyzer": "^3.3.2"
   },
   "resolutions": {
-    "@types/react": "16.4.2"
+    "@types/react": "16.8.8"
   }
 }

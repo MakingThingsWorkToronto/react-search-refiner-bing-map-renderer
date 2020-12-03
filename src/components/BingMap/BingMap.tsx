@@ -1,12 +1,9 @@
 import * as React from 'react';
 import IBingMapProps from './IBingMapProps';
 import styles from './BingMap.module.scss';
-import { PersonaCoin } from 'office-ui-fabric-react/lib/PersonaCoin';
-import * as moment from 'moment';
 import { ReactBingmaps } from 'react-bingmaps'; 
-import { ISearchResults,ISearchResult } from '../../models/ISearchResult';
+import { ISearchResult } from '../../models/ISearchResult';
 import ICategoryIcon from '../../models/ICategoryIcon';
-import { blockParams } from 'handlebars';
 
 export default class BingMap extends React.Component<IBingMapProps, {}> {
 
@@ -127,6 +124,16 @@ export default class BingMap extends React.Component<IBingMapProps, {}> {
     }
 
     private createCompareRegEx(pattern: string): any {
+
+        return (fieldValue:string) => {
+            try {
+                var regex = new RegExp(pattern);
+                return regex.test(fieldValue);
+            } catch (e) {
+                return false;
+            }
+        };
+/*
         return (function(bits){
             return function(fieldValue:string) {
                 try {
@@ -137,10 +144,33 @@ export default class BingMap extends React.Component<IBingMapProps, {}> {
                 }
             };
         })(pattern);
+*/
     }
 
     private createCompareList(pattern:string) : any {
 
+        return (fieldValue:string) => {
+            try {
+
+                var parts = pattern.split(","),
+                    hasVal = true;
+
+                parts.forEach((part,index)=>{
+                    if(fieldValue.indexOf(part)==-1) {
+                        hasVal = false;
+                    }
+                });
+                
+                return hasVal;
+
+            } catch (e){
+
+                return false;
+
+            }
+        };
+
+        /*
         return (function(bits){
 
             return function(fieldValue:string) {
@@ -167,7 +197,7 @@ export default class BingMap extends React.Component<IBingMapProps, {}> {
             };
 
         })(pattern);
-
+        */
     }
 
 
@@ -191,11 +221,15 @@ export default class BingMap extends React.Component<IBingMapProps, {}> {
     private createMarkup(result: ISearchResult) : string {
 
         let tmpl = this.props.hbsTemplate;
-
-        return this.props.templateService.processTemplate({
-            result: result,
-            styles: styles
-        }, tmpl);
+        try {
+            return this.props.templateService.processTemplate({
+                result: result,
+                styles: styles
+            }, tmpl);
+        } catch (ex) {
+            console.log("Failure generating template: " + ex.toString());
+            return "";
+        }
 
     }
 
