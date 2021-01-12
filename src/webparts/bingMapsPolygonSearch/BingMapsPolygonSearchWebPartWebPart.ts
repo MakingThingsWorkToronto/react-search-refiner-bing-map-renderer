@@ -83,7 +83,7 @@ export default class BingMapsPolygonSearchWebPartWebPart extends BaseClientSideW
   public render(): void {
 
     if(!this._isInitialized) return;
-    
+
     if (Environment.type === EnvironmentType.Local) {
       this.setMockResults();
     }
@@ -156,6 +156,7 @@ export default class BingMapsPolygonSearchWebPartWebPart extends BaseClientSideW
   }
 
   protected onDispose(): void {
+    this._isInitialized = false;
     ReactDom.unmountComponentAtNode(this.domElement);
   }
 

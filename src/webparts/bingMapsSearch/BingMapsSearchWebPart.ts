@@ -42,8 +42,6 @@ export default class BingMapsSearchWebPart extends BaseClientSideWebPart<IBingMa
 
       this._templateService = new MockTemplateService(this.context.pageContext.cultureInfo.currentUICultureName);
       
-      //this.renderMockResults();
-
     } else {
 
         this._templateService = new TemplateService(this.context.spHttpClient, this.context.pageContext.cultureInfo.currentUICultureName);
@@ -105,11 +103,21 @@ export default class BingMapsSearchWebPart extends BaseClientSideWebPart<IBingMa
     
     if(!this._isInitialized) return;
 
+    console.log("rendering");
+
     if (Environment.type === EnvironmentType.Local) { this.setMockResults(); }
+
+    let componentId = "";
+
+    try {
+      componentId = this.componentId;
+    }catch(ex) {
+      console.log("Can't read componentId: " + ex.toString());
+    }
 
     const map = React.createElement(
       BingMaps, {
-        componentId: this.componentId, 
+        componentId: componentId, 
         pinResults: this._searchResults,
         templateService: this._templateService,
         bingMapsAPIKey: this.properties.bingMapsAPIKey,
@@ -156,6 +164,8 @@ export default class BingMapsSearchWebPart extends BaseClientSideWebPart<IBingMa
   }
 
   protected onDispose(): void {
+    this._isInitialized = false;
+    this._resultService.unregisterRenderer(this.componentId);
     ReactDom.unmountComponentAtNode(this.domElement);
   }
 

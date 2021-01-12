@@ -21,6 +21,11 @@ export default interface IResultService {
      */
     registerRenderer(rendererId: string, rendererName: string, rendererIcon: string, callback: (e) => void, customFields?:string[]);
 
+    /***
+     * Unregister the renderer from the page.
+     */
+    unregisterRenderer(rendererId:string):void;
+
     /**
      * Get all registered renderers on the current page. 
      */
